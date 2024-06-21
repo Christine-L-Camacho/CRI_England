@@ -1,5 +1,5 @@
-# CRI_England
-Community Resilience Index Data Repository
+# Community Resilience Index for England Data Repository
+
 This repository contains data files related to the Community Resilience Index, which is a composite index designed to measure community resilience in England. The data includes raw indicators, results from the index calculations, and metadata descriptions for the indicators used. Please refer to the published paper for the methodology for index construction.
 
 Repository Contents
