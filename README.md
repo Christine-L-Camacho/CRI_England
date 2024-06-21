@@ -13,7 +13,7 @@ Description: This file contains the index and sub-index results of the Community
 Format: CSV
 
 indicator_description.xlsx
-Description: This file contains the metadata for the 44 indicators used in the index, providing detailed descriptions and relevant information about each indicator.
+Description: This file contains the metadata for the 44 indicators used in the index, providing detailed descriptions and relevant information about each indicator. The highlighted rows identify the indicators which are not included in the indicator.csv file
 Format: Excel spreadsheet
 
 Usage
