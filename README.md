@@ -20,7 +20,7 @@ Usage
 To use the data contained in this repository, please ensure you have the appropriate software to handle CSV files (e.g., Excel, R, Python, Stata). The data can be used for analysis, research, and reporting purposes related to community resilience.
 
 Citation
-If you use this data in your research or any other project, please this paper:  
+If you use this data in your research or any other project, please use the following citation:  
 
 Camacho, C.; Webb, R.T.; Bower, P.; Munford, L. Adapting the Baseline Resilience Indicators for Communities (BRIC) Framework for England: Development of a Community Resilience Index. Int. J. Environ. Res. Public Health 2024, 21, 1012. https://doi.org/10.3390/ijerph21081012
 
