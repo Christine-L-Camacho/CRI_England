@@ -22,7 +22,7 @@ To use the data contained in this repository, please ensure you have the appropr
 Citation
 If you use this data in your research or any other project, please reference the forthcoming paper that describes the Community Resilience Index in detail. 
 
-Christine Camacho, Roger T. Webb, Peter Bower and Luke Munford. Adapting the Baseline Resilience in Communities (BRIC) Framework for England: Development of a Community Resilience Index , Journal (to be updated), Year (to be updated). 
+Camacho, C.; Webb, R.T.; Bower, P.; Munford, L. Adapting the Baseline Resilience Indicators for Communities (BRIC) Framework for England: Development of a Community Resilience Index. Int. J. Environ. Res. Public Health 2024, 21, 1012. https://doi.org/10.3390/ijerph21081012
 
 Contact
 
