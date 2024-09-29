@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="generator" content="Observable Framework v1.11.0">
+<title>CRI Index for England Tool</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="preload" as="style" href="./_observablehq/theme-air,near-midnight,alt,wide.f6ca92af.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
+<link rel="stylesheet" type="text/css" href="./_observablehq/theme-air,near-midnight,alt,wide.f6ca92af.css">
+<link rel="modulepreload" href="./_observablehq/client.085f727e.js">
+<link rel="modulepreload" href="./_observablehq/runtime.a4b34474.js">
+<link rel="modulepreload" href="./_observablehq/stdlib.43ec6990.js">
+<link rel="modulepreload" href="./_import/components/url_params.fb45fdf3.js">
+<link rel="modulepreload" href="./_import/components/cri_button.e59500da.js">
+<link rel="modulepreload" href="./_import/components/heatDot.930742c3.js">
+<link rel="modulepreload" href="./_npm/htl@0.3.1/063eb405.js">
+<link rel="modulepreload" href="./_npm/d3-dsv@3.0.1/407f7a1f.js">
+<link rel="modulepreload" href="./_observablehq/stdlib/xlsx.116588a6.js">
+<link rel="modulepreload" href="./_npm/exceljs@4.4.0/130ea17b.js">
+<link rel="icon" href="./_file/img/favicon.97fcf851.ico" type="image/png" sizes="32x32">
+<script type="module">
+
+import {define} from "./_observablehq/client.085f727e.js";
+import {registerFile} from "./_observablehq/stdlib.43ec6990.js";
+
+registerFile("./data/CRIindicators.xlsx", {"name":"./data/CRIindicators.xlsx","mimeType":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","path":"./_file/data/CRIindicators.71f37d44.xlsx","lastModified":1726764409239,"size":15180});
+registerFile("./data/geogranks_powerBI_v2.csv", {"name":"./data/geogranks_powerBI_v2.csv","mimeType":"text/csv","path":"./_file/data/geogranks_powerBI_v2.dc882123.csv","lastModified":1726605635004,"size":419488});
+
+define({id: "8039611a", outputs: ["urlParams","criButton","heatDot"], body: async () => {
+const [{urlParams}, {criButton}, {heatDot}] = await Promise.all([import("./_import/components/url_params.fb45fdf3.js"), import("./_import/components/cri_button.e59500da.js"), import("./_import/components/heatDot.930742c3.js")]);
+
+return {urlParams,criButton,heatDot};
+}});
+
+define({id: "add3f49c", inputs: ["FileAttachment"], outputs: ["cr_data"], body: (FileAttachment) => {
+const cr_data = FileAttachment("./data/geogranks_powerBI_v2.csv").csv({typed: true});
+return {cr_data};
+}});
+
+define({id: "7fba5a87", inputs: ["cr_data","urlParams"], outputs: ["la_data"], body: (cr_data,urlParams) => {
+var la_data = cr_data.find(data => data.lac === urlParams('la'))
+return {la_data};
+}});
+
+define({id: "72efa000", inputs: ["cr_data"], outputs: ["highestCri","lowestCri"], body: (cr_data) => {
+// find the max and min values of CRI index in the data
+const highestCri = cr_data.reduce((max, obj) => 
+  (obj.index > max ? obj.index : max), -Infinity);
+
+const lowestCri = cr_data.reduce((min, obj) => 
+  (obj.index < min ? obj.index : min), Infinity);
+return {highestCri,lowestCri};
+}});
+
+define({id: "e5a077d0", mode: "inline", inputs: ["la_data","display"], body: async (la_data,display) => {
+display(await(
+la_data.lan
+))
+}});
+
+define({id: "a7e4a066", inputs: ["FileAttachment"], outputs: ["criIndicators"], body: (FileAttachment) => {
+const criIndicators = FileAttachment("./data/CRIindicators.xlsx").xlsx();
+return {criIndicators};
+}});
+
+define({id: "cd1862c5", inputs: ["criIndicators","la_data"], outputs: ["indctr_data"], body: (criIndicators,la_data) => {
+var indctr_data = criIndicators.sheet(0, { headers: true })
+indctr_data = indctr_data.map(item => ({
+  ...item,
+  Direction: item.Direction === '+' ? true : false
+}));
+// remove indicators that have no value
+indctr_data = indctr_data.filter(item => la_data[item.varlab1] !== undefined);
+return {indctr_data};
+}});
+
+define({id: "e705686c", inputs: ["indctr_data","la_data"], body: (indctr_data,la_data) => {
+// sort the data by rank, low number to high
+indctr_data.sort((a, b) => {
+  const valA = la_data[a.varlab1];
+  const valB = la_data[b.varlab1];
+
+  // Compare numbers
+  return valA - valB;
+});
+}});
+
+define({id: "ee6a6254", body: () => {
+// View the table for debug purposes
+// Inputs.table(indctr_data)
+}});
+
+define({id: "d539fcec", outputs: ["subIndex"], body: () => {
+var subIndex = {
+  1: '1 - Access and Infrastructure',
+  2: '2 - Economic Well-being and Opportunity',
+  3: '3 - Social Capital and Connectivity',
+  4: '4 - Diversity and Inclusion',
+  5: '5 - Equity and Stability',
+
+}
+return {subIndex};
+}});
+
+define({id: "6ad28bd2", inputs: ["html","indctr_data","subIndex","heatDot","la_data"], outputs: ["indicatorTable"], body: (html,indctr_data,subIndex,heatDot,la_data) => {
+function indicatorTable(){
+
+  return html`<table style="width: 180px;">
+  <table>
+  <thead>
+  <tr>
+    <th>Indicator</th>
+    <th>Sub Index</th>
+    <th>National Rank</th>
+  </tr>
+  </thead>
+  <tbody>${indctr_data.map((indctr) => html.fragment`
+  <tr>
+    <td>${indctr.Description_short}</td>
+    <td>${subIndex[indctr.Subindex]}</td>
+    <td>${heatDot(la_data[indctr.varlab1], 1, 307, false)} ${la_data[indctr.varlab1]}</td>
+  </tr>`)}
+  </tbody>
+  </table>`
+}
+return {indicatorTable};
+}});
+
+define({id: "635c1e33", mode: "inline", inputs: ["indicatorTable","display"], body: async (indicatorTable,display) => {
+display(await(
+indicatorTable()
+))
+}});
+
+define({id: "82a3537f", mode: "inline", inputs: ["name","display"], body: async (name,display) => {
+display(await(
+name
+))
+}});
+
+define({id: "1275e0ed", mode: "inline", inputs: ["heatDot","la_data","lowestCri","highestCri","display"], body: async (heatDot,la_data,lowestCri,highestCri,display) => {
+display(await(
+heatDot(Math.floor(la_data.index * 10)/10, lowestCri, highestCri)
+))
+}});
+
+define({id: "723fa789", mode: "inline", inputs: ["la_data","display"], body: async (la_data,display) => {
+display(await(
+Math.floor(la_data.index * 10)/10
+))
+}});
+
+define({id: "e823e0bb", mode: "inline", inputs: ["heatDot","la_data","display"], body: async (heatDot,la_data,display) => {
+display(await(
+heatDot(la_data.quintile, 1, 5)
+))
+}});
+
+define({id: "e76b4a78", mode: "inline", inputs: ["la_data","display"], body: async (la_data,display) => {
+display(await(
+la_data.quintile
+))
+}});
+
+define({id: "9fca9777", mode: "inline", inputs: ["heatDot","la_data","display"], body: async (heatDot,la_data,display) => {
+display(await(
+heatDot(la_data.index_nr, 1, 307, false)
+))
+}});
+
+define({id: "b0c6d8c8", mode: "inline", inputs: ["la_data","display"], body: async (la_data,display) => {
+display(await(
+la_data.index_nr
+))
+}});
+
+define({id: "47fb5381", mode: "inline", inputs: ["heatDot","la_data","display"], body: async (heatDot,la_data,display) => {
+display(await(
+heatDot(la_data.subindex1_nr, 1, 307, false)
+))
+}});
+
+define({id: "c323f7d3", mode: "inline", inputs: ["la_data","display"], body: async (la_data,display) => {
+display(await(
+la_data.subindex1_nr
+))
+}});
+
+define({id: "71af8123", mode: "inline", inputs: ["heatDot","la_data","display"], body: async (heatDot,la_data,display) => {
+display(await(
+heatDot(la_data.subindex2_nr, 1, 307, false)
+))
+}});
+
+define({id: "85e894b3", mode: "inline", inputs: ["la_data","display"], body: async (la_data,display) => {
+display(await(
+la_data.subindex2_nr
+))
+}});
+
+define({id: "5b915694", mode: "inline", inputs: ["heatDot","la_data","display"], body: async (heatDot,la_data,display) => {
+display(await(
+heatDot(la_data.subindex3_nr, 1, 307, false)
+))
+}});
+
+define({id: "7fcf3986", mode: "inline", inputs: ["la_data","display"], body: async (la_data,display) => {
+display(await(
+la_data.subindex3_nr
+))
+}});
+
+define({id: "821859da", mode: "inline", inputs: ["heatDot","la_data","display"], body: async (heatDot,la_data,display) => {
+display(await(
+heatDot(la_data.subindex4_nr, 1, 307, false)
+))
+}});
+
+define({id: "aa1bf0d9", mode: "inline", inputs: ["la_data","display"], body: async (la_data,display) => {
+display(await(
+la_data.subindex4_nr
+))
+}});
+
+define({id: "8455a1a8", mode: "inline", inputs: ["heatDot","la_data","display"], body: async (heatDot,la_data,display) => {
+display(await(
+heatDot(la_data.subindex5_nr, 1, 307, false)
+))
+}});
+
+define({id: "5b4f66a0", mode: "inline", inputs: ["la_data","display"], body: async (la_data,display) => {
+display(await(
+la_data.subindex5_nr
+))
+}});
+
+</script>
+<div id="observablehq-center">
+<main id="observablehq-main" class="observablehq">
+<style>
+  .citation-block {
+            background-color: #f9f9f9;
+            border-left: 3px solid #173C72;
+            padding: 5px;
+            margin: 5px 0;
+            font-style: italic;
+            max-width: 640px;
+        }
+
+        .citation-text {
+            margin: 0;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+</style> 
+<div class="observablehq observablehq--block"><!--:8039611a:--></div>
+<div class="observablehq observablehq--block"><!--:add3f49c:--></div>
+<div class="observablehq observablehq--block"><!--:7fba5a87:--></div>
+<div class="observablehq observablehq--block"><!--:72efa000:--></div>
+<div class="grid grid-cols-2 content" style="grid-auto-rows: auto;">
+  <!-- CARD 1: INDICATOR SCORES -->
+  <div class="card grid-rowspan-3">
+<h3 style="font-weight: bold;">Local Authority Indicator Scores</h3>
+<br>
+<h1 style="font-weight: bold;"><observablehq-loading></observablehq-loading><!--:e5a077d0:--></h1>
+<div class="observablehq observablehq--block"><!--:a7e4a066:--></div>
+<div class="observablehq observablehq--block"><!--:cd1862c5:--></div>
+<div class="observablehq observablehq--block"><!--:e705686c:--></div>
+<div class="observablehq observablehq--block"><!--:ee6a6254:--></div>
+<div class="observablehq observablehq--block"><!--:d539fcec:--></div>
+<div class="observablehq observablehq--block"><!--:6ad28bd2:--></div>
+<p><observablehq-loading></observablehq-loading><!--:635c1e33:--></p>
+  </div>
+  <!-- CARD 2: COMMUNITY RESILIENCE INDEX -->
+  <div class="card" style="position: relative;">
+<h3 style="font-weight: bold;">Community Resilience Index</h3>
+<br>
+<h1 style="font-weight: bold;"><observablehq-loading></observablehq-loading><!--:82a3537f:--></h1>
+  <br>
+  <table>
+    <tbody><tr>
+      <td><b>CRI Score</b></td>
+      <td><observablehq-loading></observablehq-loading><!--:1275e0ed:--> <observablehq-loading></observablehq-loading><!--:723fa789:--></td>
+    </tr>
+    <tr>
+      <td><b>CRI quintile</b></td>
+      <td><observablehq-loading></observablehq-loading><!--:e823e0bb:--> <observablehq-loading></observablehq-loading><!--:e76b4a78:--></td>
+    </tr>
+    <tr>
+      <td><b>CRI National Rank</b></td>
+      <td><observablehq-loading></observablehq-loading><!--:9fca9777:--> <observablehq-loading></observablehq-loading><!--:b0c6d8c8:--></td>
+    </tr>
+    <tr>
+      <td>1 - Access and Infrastructure</td>
+      <td><observablehq-loading></observablehq-loading><!--:47fb5381:--> <observablehq-loading></observablehq-loading><!--:c323f7d3:--></td>
+    </tr>
+    <tr>
+      <td>2 - Economic Well-being and Opportunity</td>
+      <td><observablehq-loading></observablehq-loading><!--:71af8123:--><observablehq-loading></observablehq-loading><!--:85e894b3:--></td>
+    </tr>
+    <tr>
+      <td>3 - Social Capital and Connectivity</td>
+      <td><observablehq-loading></observablehq-loading><!--:5b915694:--><observablehq-loading></observablehq-loading><!--:7fcf3986:--></td>
+    </tr>
+    <tr>
+      <td>4 - Diversity and Inclusion</td>
+      <td><observablehq-loading></observablehq-loading><!--:821859da:--><observablehq-loading></observablehq-loading><!--:aa1bf0d9:--></td>
+    </tr>
+    <tr>
+      <td>5 - Equity and Stability</td>
+      <td><observablehq-loading></observablehq-loading><!--:8455a1a8:--><observablehq-loading></observablehq-loading><!--:5b4f66a0:--></td>
+    </tr>
+  </tbody></table>
+<div class="citation-block">
+<p class="citation-text">
+</p><ul>
+  <li>CRI score: higher score = more resilient</li>
+  <li>CRI quintiles: 1 = least resilient; 5 = most resilient</li>
+  <li>Ranks: 1 = highest community resilience;<br> 307 = lowest resilience</li>
+</ul>
+<p></p>
+</div>
+  </div>
+  <div style="position: relative;"></div>
+  <div style="position: relative;"></div>
+</div></main>
+</div>

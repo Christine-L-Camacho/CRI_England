@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Resilience Index for England</title>
+
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .navbar-custom {
+            position: fixed; /* Make it fixed */
+            top: 0; /* Position it at the top */
+            left: 0;
+            right: 0;
+            z-index: 1000; /* Ensure it stays above other content */
+            background-color: #f8f8f8;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle-bar {
+            position: fixed; /* Make it fixed */
+            top: 55px; /* Position it below the title bar */
+            left: 0;
+            right: 0;
+            background-color: #173C72;
+            color: white;
+            font-size: 18px;
+            padding: 20px 20px 10px 20px;
+            z-index: 999; /* Ensure it stays below the title bar */
+            text-align: center; /* Center the text */
+        }
+
+        /* Responsive logo size */
+        .navbar-brand img {
+            height: 40px;
+        }
+
+        @media (max-width: 576px) {
+            .navbar-brand img {
+                height: 30px; /* Smaller logo for mobile */
+            }
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            padding-top: 100px; /* Add padding to the top to prevent content from being hidden behind the title and subtitle bars */
+        }
+
+        /* Center card with vertical padding for extra space */
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Ensures container takes full viewport height */
+            padding: 20px; /* Adds padding to avoid cutting off the top */
+        }
+
+        .card {
+            width: 100%;
+            max-width: 800px; /* Limit the card width */
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .card-text {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Custom styling for citation block */
+        .citation-block {
+            background-color: #f9f9f9;
+            border-left: 5px solid #173C72;
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        .citation-text {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .button_link {
+    background-color: #6b2c91; /* Button background color */
+    color: #fff; /* Button text color */
+    border: none; /* No border */
+    padding: 6px 15px; /* Padding for the button */
+    font-weight: 400; /* Font weight */
+    border-radius: 4px; /* Rounded corners */
+    text-decoration: none; /* Remove underline from links */
+    display: inline-block; /* Make it behave like a button */
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+.button_link:hover,
+.button_link:focus {
+    background-color: #79379d; /* Background color on hover/focus */
+}
+
+.button_link:active {
+    background-color: #55147a; /* Background color on click */
+}
+    </style>
+</head>
+<body>
+
+    <!-- Title Bar with two logos and responsive title -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <!-- Left logo -->
+            <a class="navbar-brand" href="#">
+                <img src="./images/NIHR.png" alt="Left Logo" height="40">
+            </a>
+
+            <!-- Empty space in the center -->
+            <div class="mx-auto"></div>
+
+            <!-- Right logo -->
+            <a class="navbar-brand" href="#">
+                <img src="./images/UoM.png" alt="Right Logo" height="40">
+            </a>
+        </div>
+    </nav>
+
+    <!-- Subtitle Bar -->
+    <div class="subtitle-bar">
+        <a href="./index.html" style="text-decoration: none; color: #fff;">Community Resilience Index for England</a>
+    </div>
+
+    <!-- Card Container -->
+    <div class="main-content"></div>
+    <div class="card-container">
+        <div class="card shadow">
+            <div class="card-body">
+                <h5 class="card-title">Community Resilience Index for England</h5>
+
+                <h6 class="card-subtitle mb-1">Background</h6>
+                <p class="card-text">
+                    Improving community resilience is a key aim of national and local policymakers, reflected in documents like the UK Government Resilience Framework. Measuring community resilience is complex, but essential to identifying which places have lower resilience, and may benefit from tailored interventions. Researchers from The University of Manchester have developed a new composite measure – a Community Resilience Index (CRI) – and applied it to England. The CRI can be used to guide resilience-building efforts by policymakers, at national, regional, and local levels.
+                </p>
+
+                <h6 class="card-subtitle mb-2">Measuring Community Resilience</h6>
+                <p class="card-text">
+                    To create the CRI, 44 indicators were grouped into five sub-indices, each representing a different aspect of community resilience. The full methodology for how the index was developed can be found here.
+                </p>
+                <div style="width: 100%; max-width: 640px;">
+                  <a href='https://www.mdpi.com/1660-4601/21/8/1012' target="_blank"><img src="./images/Paper.png" style="width: 100%; height: auto; display: block; max-width: 640px"></a>
+                </div>
+                <br>
+                <h6 class="card-subtitle mb-2">How to use this tool</h6>
+                <p class="card-text">
+                    This tool provides access to CRI scores, sub-index scores, and indicators from the research study above. It allows the data to be explored at either the local authority level or by geographical groupings, such as regions, local resilience forums, or combined authorities.
+                </p>
+                <p class="card-text">
+                    The datasets used to generate the Community Resilience Index (CRI) for England are available in a <a href="https://github.com/Christine-L-Camacho/CRI_England" target="_blank">GitHub repository</a>. This excludes the data for two indicators, which were used under licence/special agreement for the current study and so are not publicly available. The data for the retail vacancies indicator may be accessed under licence from the <a href="https://www.cdrc.ac.uk/" target="_blank">Consumer Data Research Centre</a>, and the data on assets of community value can be obtained from <a href="https://plunkett.co.uk/" target="_blank">Plunkett UK</a>. All data generated from this study, namely the CRI and its sub-indices at local authority district level, are included in this published article and its Supplementary Information Files.
+                </p>
+                <h6 class="card-subtitle mb-2">Citation</h6>
+                <p class="card-text">
+                    If you use this data in your research or any other project, please use the following citation:
+                </p>
+                <div class="citation-block">
+                  <p class="citation-text">
+                    Camacho, C.; Webb, R.T.; Bower, P.; Munford, L. Adapting the Baseline Resilience Indicators for Communities (BRIC) Framework for England: Development of a Community Resilience Index. Int. J. Environ. Res. Public Health 2024, 21, 1012. <a href="https://doi.org/10.3390/ijerph21081012" target="_blank" >https://doi.org/10.3390/ijerph21081012</a>
+                  </p>
+                </div>
+                <br>
+                <p><a href="./la.html" class="button_link">Local Authority</a></p>
+      <br>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

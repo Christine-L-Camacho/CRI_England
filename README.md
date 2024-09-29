@@ -2,8 +2,9 @@
 
 This repository contains data files related to the Community Resilience Index, which is a composite index designed to measure community resilience in England. The data includes raw indicators, results from the index calculations, and metadata descriptions for the indicators used. Please refer to the published paper for the methodology for index construction.
 
-Repository Contents
-Files
+## Repository Contents
+
+### Files
 indicators.csv
 Description: This file contains the raw data for 42 of the indicators used in the Community Resilience Index. This excludes the data for two indicators, which were used under license/special agreement for the current study, and so are not publicly available. The data for the retail vacancies indicator may be accessed under licence from the Consumer Data Research Centre and the data on assets of community value can be obtained from Plunkett UK. 
 Format: CSV
