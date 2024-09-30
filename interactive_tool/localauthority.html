@@ -40,6 +40,22 @@
             height: 100%;
             border: none;
         }
+
+        .back-button {
+            background-color: #173C72;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px; /* Space between logo and button */
+        }
+
+        .back-button:hover {
+            background-color: #1456a3; /* Darker shade on hover */
+        }
+
         /* Responsive logo size */
         .navbar-brand img {
             height: 40px;
@@ -49,18 +65,25 @@
             .navbar-brand img {
                 height: 30px; /* Smaller logo for mobile */
             }
+
+            .back-button {
+                display: none; /* Hide the back button on mobile */
+            }
         }
     </style>
 </head>
 <body>
 
-     <!-- Title Bar with two logos and responsive title -->
+     <!-- Title Bar with two logos and back button -->
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container-fluid d-flex justify-content-between align-items-center">
-            <!-- Left logo -->
-            <a class="navbar-brand" href="#">
-                <img src="./images/NIHR.png" alt="Left Logo" height="40">
-            </a>
+            <!-- Left logo and back button -->
+            <div class="d-flex align-items-center">
+                <a class="navbar-brand" href="#">
+                    <img src="./images/NIHR.png" alt="Left Logo" height="40">
+                </a>
+                <button class="back-button" onclick="window.history.back()">&#8592; Back</button>
+            </div>
 
             <!-- Empty space in the center -->
             <div class="mx-auto"></div>
